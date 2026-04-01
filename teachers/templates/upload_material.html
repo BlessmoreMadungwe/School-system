@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4 text-dark">Upload Study Material</h2>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Class</label>
+                        <select class="form-select">
+                            <option>Mathematics 101</option>
+                            <option>Physics II</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Material Title</label>
+                        <input type="text" class="form-control" placeholder="e.g. Chapter 1 Notes">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">File</label>
+                        <input type="file" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Upload to Student Portal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

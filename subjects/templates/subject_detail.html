@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="mb-4">
+        <a href="{% url 'subjects_list' %}" class="btn btn-link text-decoration-none text-muted p-0 mb-2">
+            <i class="bi bi-arrow-left"></i> Back to Catalog
+        </a>
+        <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+            <h3 class="fw-bold mb-0">Artificial Intelligence <span class="text-muted small ms-2">(CS205)</span></h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-list-task me-2"></i>Course Modules</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion accordion-flush" id="syllabusAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#mod1">
+                                    Module 1: Introduction to AI
+                                </button>
+                            </h2>
+                            <div id="mod1" class="accordion-collapse collapse show">
+                                <div class="accordion-body text-secondary small">
+                                    History of AI, Turing tests, and Agent architectures.
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <div class="bg-warning bg-opacity-10 p-4 rounded-circle d-inline-block mx-auto mb-3">
+                    <i class="bi bi-info-circle text-warning fs-1"></i>
+                </div>
+                <h5 class="fw-bold">Subject Info</h5>
+                <ul class="list-group list-group-flush text-start mt-3">
+                    <li class="list-group-item d-flex justify-content-between small">
+                        <span class="text-muted">Total Weeks:</span> <strong>16 Weeks</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between small">
+                        <span class="text-muted">Exam Type:</span> <strong>Written + Project</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between small">
+                        <span class="text-muted">Difficulty:</span> <strong class="text-danger">Advanced</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

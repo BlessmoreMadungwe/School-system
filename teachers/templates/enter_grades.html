@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4">Enter Student Grades</h2>
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h6 class="mb-0 fw-bold">Class: Physics II | Assignment: Lab Report 1</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Student ID</th>
+                            <th style="width: 200px;">Grade (0-100)</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice Walker</td>
+                            <td>STU-001</td>
+                            <td><input type="number" class="form-control form-control-sm" placeholder="85"></td>
+                            <td><input type="text" class="form-control form-control-sm" placeholder="Great work"></td>
+                        </tr>
+                        <tr>
+                            <td>Bob Smith</td>
+                            <td>STU-002</td>
+                            <td><input type="number" class="form-control form-control-sm" placeholder="Grade"></td>
+                            <td><input type="text" class="form-control form-control-sm" placeholder="..."></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-end">
+            <button class="btn btn-primary px-4">Save All Grades</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

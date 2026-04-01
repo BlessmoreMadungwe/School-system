@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between mb-4 p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+        <div class="d-flex align-items-center">
+            <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
+                <i class="bi bi-book-half text-warning fs-3"></i>
+            </div>
+            <div>
+                <h3 class="fw-bold mb-0">Course Catalog</h3>
+                <p class="text-secondary mb-0 small">Browse and manage all academic subjects</p>
+            </div>
+        </div>
+        <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
+            <i class="bi bi-plus-lg me-1"></i> New Subject
+        </button>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100 rounded-4 transition-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">Core Subject</span>
+                        <span class="text-muted small fw-bold">ID: MATH101</span>
+                    </div>
+                    <h5 class="card-title fw-bold">Calculus & Analytical Geometry</h5>
+                    <p class="card-text text-secondary small">Fundamental concepts of limits, derivatives, and integration for engineering students.</p>
+                    
+                    <hr class="text-light">
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="small">
+                            <i class="bi bi-person-circle me-1 text-primary"></i> Prof. Alex Rivera
+                        </div>
+                        <div class="small fw-bold text-dark">
+                            <i class="bi bi-mortarboard me-1"></i> 3 Credits
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border-0 py-3 rounded-bottom-4">
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Syllabus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100 rounded-4 transition-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-info-subtle text-info px-3 py-2 rounded-pill">Elective</span>
+                        <span class="text-muted small fw-bold">ID: CS205</span>
+                    </div>
+                    <h5 class="card-title fw-bold">Artificial Intelligence</h5>
+                    <p class="card-text text-secondary small">Introduction to machine learning, neural networks, and logic-based systems.</p>
+                    
+                    <hr class="text-light">
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="small">
+                            <i class="bi bi-person-circle me-1 text-primary"></i> Dr. Sarah Jenkins
+                        </div>
+                        <div class="small fw-bold text-dark">
+                            <i class="bi bi-mortarboard me-1"></i> 4 Credits
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border-0 py-3 rounded-bottom-4">
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Syllabus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

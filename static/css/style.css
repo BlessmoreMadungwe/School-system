@@ -1,0 +1,99 @@
+/* 1. Global Setup */
+body { 
+    overflow-x: hidden; 
+    background-color: #f8f9fa; 
+}
+
+/* 2. Scrollable Sidebar Setup */
+.sidebar {
+    width: 240px; 
+    /* Height is screen height minus the top navbar height (56px) */
+    height: calc(100vh - 56px); 
+    position: fixed;
+    top: 56px; 
+    left: 0; 
+    background-color: #212529; 
+    z-index: 1000;
+    
+    /* ENABLE SIDEBAR SCROLLING */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    padding-bottom: 30px; /* Extra space at the bottom */
+}
+
+/* 3. Main Content Offset */
+.main-content {
+    margin-left: 240px; 
+    padding: 80px 25px 25px 25px;
+    min-height: 100vh;
+}
+
+/* 4. Custom Scrollbar Styling (Modern/Thin) */
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 5. Section Heading (e.g., "Academic") */
+.sidebar-heading {
+    color: #6c757d;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* 6. Nav Link Base Styling */
+.nav-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: 0.2s ease-in-out; 
+    border-radius: 5px; 
+    margin-bottom: 2px;
+    display: flex; 
+    align-items: center;
+    font-size: 0.95rem;
+    padding: 10px 15px;
+}
+
+.nav-link:hover { 
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #fff !important; 
+}
+
+/* 7. Active State Highlight */
+.nav-link.active {
+    background-color: rgba(13, 110, 253, 0.15); /* Light blue tint */
+    border-left: 4px solid #0d6efd; /* Blue border on the left */
+    color: #fff !important;
+    font-weight: 500;
+}
+
+/* 8. Perfect Icon Alignment */
+.nav-link i { 
+    font-size: 1.1rem; 
+    width: 30px; /* Fixed width ensures text starts at the same spot */
+    text-align: left;
+}
+
+/* 9. Dropdown Sub-menu Link Padding */
+.collapse ul li .nav-link {
+    padding-left: 10px;
+    font-size: 0.88rem;
+}
+
+.transition-hover {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+.transition-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}

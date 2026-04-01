@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">My Assigned Classes</h2>
+        <span class="badge bg-primary px-3 py-2">Term: Spring 2026</span>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-info-subtle text-info">Room 302</span>
+                        <i class="bi bi-clock text-muted"> 09:00 AM</i>
+                    </div>
+                    <h5 class="card-title">Mathematics 101</h5>
+                    <p class="card-text text-muted small">Total Students: 32</p>
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="#" class="btn btn-primary btn-sm">Take Attendance</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">View Students</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+{% endblock %}

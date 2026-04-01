@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="p-5 mb-4 bg-white rounded-3 shadow-sm border-0">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold text-dark">Welcome to School System 👋</h1>
+            <p class="col-md-8 fs-4 text-muted">Efficiently manage students, teachers, and academic resources all in one place. Select your portal from the sidebar to get started.</p>
+            <hr class="my-4">
+            <div class="d-flex gap-2">
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-primary btn-lg px-4 shadow">Go to Admin</a>
+                <button class="btn btn-outline-secondary btn-lg px-4">System Guide</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-primary"><i class="bi bi-person-badge fs-1"></i></div>
+                    <h5 class="card-title">Staff Portal</h5>
+                    <p class="card-text text-muted">Manage your classes, upload materials, and update student grades.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-success"><i class="bi bi-mortarboard fs-1"></i></div>
+                    <h5 class="card-title">Student Portal</h5>
+                    <p class="card-text text-muted">Check your upcoming exams, assignments, and download study resources.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-warning"><i class="bi bi-shield-check fs-1"></i></div>
+                    <h5 class="card-title">Secure Access</h5>
+                    <p class="card-text text-muted">Your data is protected. Use the logout button before leaving shared computers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+        <h2 class="h2 text-dark">Student Dashboard</h2>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        
+        <div class="col">
+            <div class="card text-bg-primary border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title opacity-75">Enrolled Subjects</h5>
+                            <p class="card-text display-5 fw-bold mb-0">6</p>
+                        </div>
+                        <i class="bi bi-book fs-1 opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card text-bg-success border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title opacity-75">Upcoming Exams</h5>
+                            <p class="card-text display-5 fw-bold mb-0">3</p>
+                        </div>
+                        <i class="bi bi-pencil-square fs-1 opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card text-bg-warning border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title opacity-75">Pending Tasks</h5>
+                            <p class="card-text display-5 fw-bold mb-0">5</p>
+                        </div>
+                        <i class="bi bi-list-check fs-1 opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-bell me-2"></i>Recent Notifications</h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex align-items-center py-3">
+                            <span class="badge bg-danger me-3">Urgent</span>
+                            <span>Math exam scheduled for <strong>Monday, 9:00 AM</strong></span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3">
+                            <span class="badge bg-info me-3">Project</span>
+                            <span>Submit science project by <strong>Friday</strong></span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3">
+                            <span class="badge bg-secondary me-3">Grades</span>
+                            <span>New grades posted for <strong>History Assignment #2</strong></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white border-0 text-center">
+                    <a href="#" class="btn btn-link btn-sm text-decoration-none">View All Notifications</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

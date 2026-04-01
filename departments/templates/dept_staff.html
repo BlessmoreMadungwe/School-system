@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm border-start border-4 border-danger">
+        <div class="bg-danger bg-opacity-10 p-3 rounded-circle me-3">
+            <i class="bi bi-people-fill text-danger fs-3"></i>
+        </div>
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1 small">
+                    <li class="breadcrumb-item"><a href="" class="text-danger text-decoration-none">Departments</a></li>
+                    <li class="breadcrumb-item active">Computer Science</li>
+                </ol>
+            </nav>
+            <h3 class="fw-bold mb-0">Departmental Faculty</h3>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-person-badge me-2 text-primary"></i>Assigned Staff</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Staff Member</th>
+                            <th>Designation</th>
+                            <th>Specialization</th>
+                            <th>Experience</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-secondary rounded-circle me-2" style="width: 32px; height: 32px;"></div>
+                                    <span class="fw-medium">Dr. Sarah Jenkins</span>
+                                </div>
+                            </td>
+                            <td>Head of Department</td>
+                            <td>Artificial Intelligence</td>
+                            <td>12 Years</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-danger rounded-pill">Profile</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
