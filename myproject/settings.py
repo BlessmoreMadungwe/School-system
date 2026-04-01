@@ -1,16 +1,21 @@
-
 from pathlib import Path
 import os
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ------------------------
+# SECURITY
+# ------------------------
 SECRET_KEY = 'django-insecure-sz7a_bhq4sjeu@#3kjkrs#@!_(&!mps6y%76n)_obgbf^o$wv8'
-
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+# Render domain + optional localhost
+ALLOWED_HOSTS = ['school-system-ywgr.onrender.com', '127.0.0.1', 'localhost']
 
+# ------------------------
+# INSTALLED APPS
+# ------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -18,7 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     
+
+    # Your apps
     'core',
     'dashboard',
     'students',
@@ -28,8 +34,11 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
+# ------------------------
+# MIDDLEWARE
+# ------------------------
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # serve static in production
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -37,9 +46,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   
 ]
 
+# ------------------------
+# TEMPLATES
+# ------------------------
 ROOT_URLCONF = 'myproject.urls'
 
 TEMPLATES = [
@@ -49,7 +60,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # allows request in templates
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -59,56 +70,52 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# ------------------------
+# DATABASE
+# ------------------------
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://school_xp0g_user:jfUgxzamqIJGmNkS2RZj7o9Q0qjKDcjO@dpg-d76fg7hr0fns73c9c5bg-a.virginia-postgres.render.com/school_xp0g')
+    'default': dj_database_url.parse(
+        'postgresql://school_xp0g_user:jfUgxzamqIJGmNkS2RZj7o9Q0qjKDcjO@dpg-d76fg7hr0fns73c9c5bg-a.virginia-postgres.render.com/school_xp0g',
+        conn_max_age=600, ssl_require=True
+    )
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
+# ------------------------
+# PASSWORD VALIDATION
+# ------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
+# ------------------------
+# INTERNATIONALIZATION
+# ------------------------
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# ------------------------
+# STATIC FILES
+# ------------------------
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # production collection folder
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # development static folder
+
+# WhiteNoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'login'
-
+# ------------------------
+# MEDIA FILES
+# ------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
+# ------------------------
+# LOGIN / LOGOUT
+# ------------------------
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
