@@ -1,5 +1,9 @@
-from dotenv import load_dotenv
-load_dotenv()
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # Not needed in production — Render provides env vars directly
 
 from pathlib import Path
 import os
