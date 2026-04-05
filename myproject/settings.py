@@ -1,21 +1,61 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from pathlib import Path
 import os
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
+
+
+# ---------------------------------------------------------------------------
+# HELPERS
+# ---------------------------------------------------------------------------
+def get_env(var, default=None, required=False):
+    value = os.environ.get(var, default)
+    if required and not value:
+        raise ImproperlyConfigured(f"Missing required environment variable: {var}")
+    return value
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # SECURITY
-# ------------------------
-SECRET_KEY = 'django-insecure-sz7a_bhq4sjeu@#3kjkrs#@!_(&!mps6y%76n)_obgbf^o$wv8'
-DEBUG = False
+# ---------------------------------------------------------------------------
+SECRET_KEY = get_env('SECRET_KEY', required=True)
+DEBUG = get_env('DEBUG', 'False') == 'True'
 
-# Render domain + optional localhost
-ALLOWED_HOSTS = ['school-system-ywgr.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = get_env('ALLOWED_HOSTS', 'school-system-ywgr.onrender.com').split(',')
 
-# ------------------------
+# HTTPS — only enforced on production
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# HSTS — only enforced on production
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+
+# Cookies — secure flags only on production (HTTPS required locally otherwise)
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 3600                # 1-hour session timeout
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
+
+# Misc headers
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+
+# ---------------------------------------------------------------------------
 # INSTALLED APPS
-# ------------------------
+# ---------------------------------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,14 +72,17 @@ INSTALLED_APPS = [
     'departments',
     'subjects',
     'accounts',
+    'enrollment',
+    'assignment',
 ]
 
-# ------------------------
-# MIDDLEWARE
-# ------------------------
+
+# ---------------------------------------------------------------------------
+# MIDDLEWARE  (order matters — SecurityMiddleware must be first)
+# ---------------------------------------------------------------------------
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # serve static in production
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -48,9 +91,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # TEMPLATES
-# ------------------------
+# ---------------------------------------------------------------------------
 ROOT_URLCONF = 'myproject.urls'
 
 TEMPLATES = [
@@ -60,7 +104,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',  # allows request in templates
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -70,19 +114,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # DATABASE
-# ------------------------
+# ---------------------------------------------------------------------------
 DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://school_xp0g_user:jfUgxzamqIJGmNkS2RZj7o9Q0qjKDcjO@dpg-d76fg7hr0fns73c9c5bg-a.virginia-postgres.render.com/school_xp0g',
-        conn_max_age=600, ssl_require=True
+    'default': dj_database_url.config(
+        env='DATABASE_URL',
+        conn_max_age=600,
+        ssl_require=True,
     )
 }
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # PASSWORD VALIDATION
-# ------------------------
+# ---------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -90,32 +137,36 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # INTERNATIONALIZATION
-# ------------------------
+# ---------------------------------------------------------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ------------------------
-# STATIC FILES
-# ------------------------
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # production collection folder
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # development static folder
 
-# WhiteNoise
+# ---------------------------------------------------------------------------
+# STATIC FILES
+# ---------------------------------------------------------------------------
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # MEDIA FILES
-# ------------------------
+# ---------------------------------------------------------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# ------------------------
+
+# ---------------------------------------------------------------------------
 # LOGIN / LOGOUT
-# ------------------------
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'login'
+# ---------------------------------------------------------------------------
+LOGIN_REDIRECT_URL = 'admin_dashboard'
+LOGOUT_REDIRECT_URL = 'login_view'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

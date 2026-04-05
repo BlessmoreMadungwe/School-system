@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary text-white rounded-3 p-3 me-3 shadow-sm">
+                    <i class="bi bi-journal-plus fs-3"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">Create New Subject</h2>
+                    <p class="text-muted mb-0">Add a official course to the school catalog</p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white border-0 pt-4 px-4">
+                    <h5 class="card-title fw-bold text-dark">Course Details</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label fw-bold small">Subject Name</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold small">Course Code</label>
+                                {{ form.code }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Department</label>
+                            {{ form.department }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Description</label>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold small">Credits / Units</label>
+                                {{ form.credits }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold shadow-sm">
+                                <i class="bi bi-save me-2"></i> Save Subject
+                            </button>
+                            <a href="{% url 'subjects_list' %}" class="btn btn-light py-2 text-muted">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

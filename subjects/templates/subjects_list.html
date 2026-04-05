@@ -12,69 +12,53 @@
                 <p class="text-secondary mb-0 small">Browse and manage all academic subjects</p>
             </div>
         </div>
-        <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
+        <a href="{% url 'add_subject' %}" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
             <i class="bi bi-plus-lg me-1"></i> New Subject
-        </button>
+        </a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        {% for subject in subjects %}
         <div class="col">
             <div class="card border-0 shadow-sm h-100 rounded-4 transition-hover">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">Core Subject</span>
-                        <span class="text-muted small fw-bold">ID: MATH101</span>
+                        <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+                            {{ subject.department.name|default:"General" }}
+                        </span>
+                        <span class="text-muted small fw-bold">ID: {{ subject.code }}</span>
                     </div>
-                    <h5 class="card-title fw-bold">Calculus & Analytical Geometry</h5>
-                    <p class="card-text text-secondary small">Fundamental concepts of limits, derivatives, and integration for engineering students.</p>
+                    
+                    <h5 class="card-title fw-bold text-capitalize">{{ subject.name }}</h5>
+                    
+                    <p class="card-text text-secondary small">
+                        {{ subject.description|default:"No description provided."|truncatechars:100 }}
+                    </p>
                     
                     <hr class="text-light">
                     
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="small">
-                            <i class="bi bi-person-circle me-1 text-primary"></i> Prof. Alex Rivera
+                            <i class="bi bi-person-circle me-1 text-primary"></i> 
+                            Faculty Member
                         </div>
                         <div class="small fw-bold text-dark">
-                            <i class="bi bi-mortarboard me-1"></i> 3 Credits
+                            <i class="bi bi-calendar3 me-1"></i> {{ subject.created_at|date:"Y" }}
                         </div>
                     </div>
                 </div>
                 <div class="card-footer bg-light border-0 py-3 rounded-bottom-4">
                     <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Syllabus</a>
+                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Details</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col">
-            <div class="card border-0 shadow-sm h-100 rounded-4 transition-hover">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <span class="badge bg-info-subtle text-info px-3 py-2 rounded-pill">Elective</span>
-                        <span class="text-muted small fw-bold">ID: CS205</span>
-                    </div>
-                    <h5 class="card-title fw-bold">Artificial Intelligence</h5>
-                    <p class="card-text text-secondary small">Introduction to machine learning, neural networks, and logic-based systems.</p>
-                    
-                    <hr class="text-light">
-                    
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="small">
-                            <i class="bi bi-person-circle me-1 text-primary"></i> Dr. Sarah Jenkins
-                        </div>
-                        <div class="small fw-bold text-dark">
-                            <i class="bi bi-mortarboard me-1"></i> 4 Credits
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-light border-0 py-3 rounded-bottom-4">
-                    <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Syllabus</a>
-                    </div>
-                </div>
-            </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No subjects found. Start by adding a new one!</p>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

@@ -5,129 +5,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management System</title>
+    <title>{% block title %}School Management System{% endblock %}</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">🏫 School System</a>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+        <div class="container-fluid px-4">
+            <button class="btn btn-light d-lg-none me-2" type="button"
+                onclick="document.querySelector('.sidebar').classList.toggle('show')">
+                <i class="bi bi-list"></i>
+            </button>
 
-        <div class="d-flex align-items-center">
-            {% if user.is_authenticated %}
-                <span class="navbar-text text-white me-3 d-none d-md-block">
-                    Welcome, {{ user.username }}
-                </span>
-                <a href="{% url 'logout_view' %}" class="btn btn-outline-light btn-sm">Logout</a>
-            {% else %}
-                <a href="{% url 'login_view' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
-                <a href="{% url 'register_view' %}" class="btn btn-success btn-sm">Register</a>
-            {% endif %}
-        </div>
-    </div>
-</nav>
-
-
-{% if user.is_authenticated %}
-<div class="sidebar shadow">
-    <ul class="nav flex-column p-3">
-
-        <li class="nav-item">
-            <small class="sidebar-heading">Dashboards</small>
-            <a class="nav-link {% if 'admin-dashboard' in request.path %}active{% endif %}" href="{% url 'admin_dashboard' %}">
-                <i class="bi bi-speedometer2 text-primary"></i> Admin
+            <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{% url 'home' %}">
+                <span class="fs-3 me-2">🏫</span> <span>SCHOOL<span class="text-dark">SYSTEM</span></span>
             </a>
-            <a class="nav-link {% if 'teacher-dashboard' in request.path %}active{% endif %}" href="{% url 'teacher_dashboard' %}">
-                <i class="bi bi-person-workspace text-success"></i> Teacher
-            </a>
-            <a class="nav-link {% if 'student-dashboard' in request.path %}active{% endif %}" href="{% url 'student_dashboard' %}">
-                <i class="bi bi-mortarboard text-warning"></i> Student
-            </a>
-        </li>
 
-        <li class="mt-4 nav-item">
-            <small class="sidebar-heading">Academic</small>
-
-            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#studentMenu">
-                <span><i class="bi bi-people-fill text-info"></i> Students</span>
-                <i class="bi bi-chevron-down small"></i>
-            </a>
-            <div class="collapse ms-3 {% if 'student' in request.path %}show{% endif %}" id="studentMenu">
-                <ul class="nav flex-column border-start border-secondary ps-2">
-                    <li><a href="{% url 'register_courses' %}" class="nav-link py-1 small text-secondary">Register</a></li>
-                    <li><a href="{% url 'view_grades' %}" class="nav-link py-1 small text-secondary">Grades</a></li>
-                    <li><a href="{% url 'view_assignments' %}" class="nav-link py-1 small text-secondary">Assignments</a></li>
-                    <li><a href="{% url 'payment' %}" class="nav-link py-1 small text-secondary">Payments</a></li>
-                </ul>
-            </div>
-
-            <a class="nav-link d-flex justify-content-between align-items-center mt-2" data-bs-toggle="collapse" href="#teacherMenu">
-                <span><i class="bi bi-person-badge-fill text-success"></i> Teachers</span>
-                <i class="bi bi-chevron-down small"></i>
-            </a>
-            <div class="collapse ms-3 {% if 'teachers' in request.path %}show{% endif %}" id="teacherMenu">
-                <ul class="nav flex-column border-start border-secondary ps-2">
-                    <li><a href="{% url 'teachers:my_classes' %}" class="nav-link py-1 small text-secondary">My Classes</a></li>
-                    <li><a href="{% url 'teachers:enter_grades' %}" class="nav-link py-1 small text-secondary">Enter Grades</a></li>
-                    <li><a href="{% url 'teachers:upload_material' %}" class="nav-link py-1 small text-secondary">Upload</a></li>
-                    <li><a href="{% url 'teachers:attendance' %}" class="nav-link py-1 small text-secondary">Attendance</a></li>
-                </ul>
-            </div>
-
-            <a class="nav-link mt-2" href="{% url 'departments_list' %}"><i class="bi bi-building text-danger"></i> Departments</a>
-            <a class="nav-link" href="{% url 'subjects_list' %}"><i class="bi bi-book text-warning"></i> Subjects</a>
-        </li>
-
-        <li class="mt-4 nav-item">
-            <small class="sidebar-heading">Resources</small>
-            <a class="nav-link" href="#"><i class="bi bi-journal-bookmark-fill text-info"></i> Materials</a>
-            <a class="nav-link" href="#"><i class="bi bi-file-pdf-fill text-danger"></i> Documents</a>
-        </li>
-
-        <li class="mt-4 nav-item">
-            <small class="sidebar-heading">System</small>
-            <a class="nav-link" href="#"><i class="bi bi-gear-fill text-secondary"></i> Settings</a>
-        </li>
-    </ul>
-</div>
-{% endif %}
-
-
-<main class="{% if user.is_authenticated %}main-content{% else %}container mt-5 pt-5{% endif %}">
-
-    {% if messages %}
-        <div class="container mt-3">
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} text-center alert-dismissible fade show">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="ms-auto d-flex align-items-center">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                        <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=0D6EFD&color=fff"
+                            width="35" height="35" class="rounded-circle me-2 shadow-sm">
+                        <div class="d-none d-md-block text-start me-2">
+                            <div class="fw-bold mb-0" style="font-size: 0.85rem; line-height: 1;">{{ user.username }}
+                            </div>
+                            {% if user.is_superuser %}<span class="badge bg-danger role-badge">Admin</span>
+                            {% elif user.teacher_profile %}<span class="badge bg-success role-badge">Teacher</span>
+                            {% else %}<span class="badge bg-info role-badge text-dark">Student</span>{% endif %}
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> My Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout_view' %}"><i
+                                    class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                    </ul>
                 </div>
+                {% else %}
+                <a href="{% url 'login_view' %}" class="btn btn-outline-primary btn-sm me-2 rounded-pill px-3">Login</a>
+                <a href="{% url 'register_view' %}" class="btn btn-primary btn-sm rounded-pill px-4">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% if user.is_authenticated %}
+    <aside class="sidebar shadow">
+        <div class="nav flex-column py-3">
+
+            {% if user.is_staff or user.is_superuser %}
+            <div class="sidebar-heading">Administration</div>
+            <a class="nav-link {% if 'admin' in request.path %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                <i class="bi bi-speedometer2 text-danger"></i> Admin Dashboard
+            </a>
+            <a class="nav-link" href="{% url 'add_subject' %}">
+                <i class="bi bi-plus-square text-danger"></i> Create Subject
+            </a>
+             <a class="nav-link" href="{% url 'add_department' %}">
+                <i class="bi bi-plus-square text-danger"></i> Create Department
+            </a>
+            
+            <a class="nav-link" href="{% url 'departments_list' %}">
+                <i class="bi bi-building text-danger"></i> Departments
+            </a>
+            <a class="nav-link" href="{% url 'subjects_list' %}">
+                <i class="bi bi-journal-bookmark text-danger"></i> Course Catalog
+            </a>
+            {% endif %}
+
+            {% if user.teacher_profile or user.is_staff %}
+            <div class="sidebar-heading">Teaching</div>
+            <a class="nav-link {% if 'teacher' in request.path %}active{% endif %}"
+                href="{% url 'teacher_dashboard' %}">
+                <i class="bi bi-person-workspace text-success"></i> My Classes
+            </a>
+            <a class="nav-link" href="{% url 'teachers:enter_grades' %}">
+                <i class="bi bi-check2-circle text-success"></i> Gradebook
+            </a>
+            <a class="nav-link" href="{% url 'teachers:upload_material' %}">
+                <i class="bi bi-cloud-upload text-success"></i> Upload Material
+            </a>
+            {% endif %}
+
+            <div class="sidebar-heading">Learning</div>
+            <a class="nav-link {% if 'student' in request.path %}active{% endif %}"
+                href="{% url 'student_dashboard' %}">
+                <i class="bi bi-mortarboard text-primary"></i> My Portal
+            </a>
+            <a class="nav-link" href="{% url 'register_courses' %}">
+                <i class="bi bi-clipboard-plus text-primary"></i> Enroll Courses
+            </a>
+            <a class="nav-link" href="{% url 'view_assignments' %}">
+                <i class="bi bi-file-earmark-text text-primary"></i> Assignments
+            </a>
+            <a class="nav-link" href="{% url 'view_grades' %}">
+                <i class="bi bi-trophy text-primary"></i> Grades & Results
+            </a>
+
+            <div class="sidebar-heading">Account</div>
+            <a class="nav-link" href="#"><i class="bi bi-gear-fill"></i> Settings</a>
+            <div style="height: 100px;"></div>
+        </div>
+    </aside>
+    {% endif %}
+
+    <main class="{% if user.is_authenticated %}main-content{% else %}container mt-5 pt-5 text-center{% endif %}">
+
+        {% if messages %}
+        <div class="container-fluid mb-4">
+            {% for message in messages %}
+            <div
+                class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show border-0 shadow-sm rounded-3">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
             {% endfor %}
         </div>
-    {% endif %}
+        {% endif %}
 
-    {% block content %}{% endblock %}
-
-    {% if not user.is_authenticated and request.path == '/' %}
-        <div class="container text-center mt-5">
-            <div class="alert alert-warning shadow-sm border-0 rounded-4">
-                <i class="bi bi-exclamation-triangle-fill fs-4 d-block mb-2"></i>
-                Please <a href="{% url 'login_view' %}" class="fw-bold text-decoration-none">login</a> or 
-                <a href="{% url 'register_view' %}" class="fw-bold text-decoration-none">register</a> to access the system.
+        {% block content %}
+        {% if not user.is_authenticated %}
+        <div class="py-5">
+            <i class="bi bi-shield-lock-fill display-1 text-muted opacity-25"></i>
+            <h1 class="mt-4 fw-bold">Sign In Required</h1>
+            <p class="text-secondary lead">Access to the school dashboard is restricted to authorized users.</p>
+            <div class="mt-4">
+                <a href="{% url 'login_view' %}" class="btn btn-primary btn-lg rounded-pill px-5 shadow">Get Started</a>
             </div>
         </div>
-    {% endif %}
+        {% endif %}
+        {% endblock %}
+    </main>
 
-</main>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

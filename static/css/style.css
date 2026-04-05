@@ -1,99 +1,112 @@
-/* 1. Global Setup */
-body { 
-    overflow-x: hidden; 
-    background-color: #f8f9fa; 
+/* --- GLOBAL --- */
+:root {
+    --sidebar-width: 260px;
+    --nav-height: 65px;
+    --bg-light: #f8f9fa;
+    --sidebar-bg: #111315; /* Sleek dark color */
 }
 
-/* 2. Scrollable Sidebar Setup */
-.sidebar {
-    width: 240px; 
-    /* Height is screen height minus the top navbar height (56px) */
-    height: calc(100vh - 56px); 
-    position: fixed;
-    top: 56px; 
-    left: 0; 
-    background-color: #212529; 
-    z-index: 1000;
-    
-    /* ENABLE SIDEBAR SCROLLING */
-    overflow-y: auto; 
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
     overflow-x: hidden;
-    padding-bottom: 30px; /* Extra space at the bottom */
 }
 
-/* 3. Main Content Offset */
+/* --- NAVBAR --- */
+.navbar {
+    height: var(--nav-height);
+    z-index: 1050;
+}
+
+/* --- SIDEBAR SCROLL FIX --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh; /* Fill full height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--sidebar-bg);
+    padding-top: var(--nav-height);
+    z-index: 1040;
+    transition: all 0.3s ease;
+    
+    /* ENABLE SCROLLING */
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #333 transparent;
+}
+
+/* Chrome/Safari Scrollbar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+
+/* --- SIDEBAR LINKS --- */
+.sidebar-heading {
+    padding: 25px 25px 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #555d66;
+}
+
+.nav-link {
+    color: #a0a6ab !important;
+    padding: 12px 25px;
+    font-weight: 500;
+    font-size: 0.92rem;
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.nav-link i {
+    width: 25px;
+    font-size: 1.1rem;
+    margin-right: 12px;
+}
+
+.nav-link:hover {
+    color: #fff !important;
+    background: rgba(255,255,255,0.05);
+}
+
+.nav-link.active {
+    background: rgba(13, 110, 253, 0.1);
+    color: #fff !important;
+    border-left: 4px solid #0d6efd;
+}
+
+/* --- CONTENT AREA --- */
 .main-content {
-    margin-left: 240px; 
-    padding: 80px 25px 25px 25px;
+    margin-left: var(--sidebar-width);
+    padding: calc(var(--nav-height) + 30px) 30px 30px;
     min-height: 100vh;
 }
 
-/* 4. Custom Scrollbar Styling (Modern/Thin) */
-.sidebar::-webkit-scrollbar {
-    width: 5px;
-}
-.sidebar::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
-}
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.role-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-/* 5. Section Heading (e.g., "Academic") */
-.sidebar-heading {
-    color: #6c757d;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 0.5rem;
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 992px) {
+    .sidebar { left: -260px; }
+    .main-content { margin-left: 0; padding: 100px 20px 20px; }
+    .sidebar.show { left: 0; }
 }
 
-/* 6. Nav Link Base Styling */
-.nav-link {
-    color: rgba(255, 255, 255, 0.7) !important;
-    transition: 0.2s ease-in-out; 
-    border-radius: 5px; 
-    margin-bottom: 2px;
-    display: flex; 
-    align-items: center;
-    font-size: 0.95rem;
-    padding: 10px 15px;
-}
-
-.nav-link:hover { 
-    background-color: rgba(255, 255, 255, 0.1); 
-    color: #fff !important; 
-}
-
-/* 7. Active State Highlight */
-.nav-link.active {
-    background-color: rgba(13, 110, 253, 0.15); /* Light blue tint */
-    border-left: 4px solid #0d6efd; /* Blue border on the left */
-    color: #fff !important;
-    font-weight: 500;
-}
-
-/* 8. Perfect Icon Alignment */
-.nav-link i { 
-    font-size: 1.1rem; 
-    width: 30px; /* Fixed width ensures text starts at the same spot */
-    text-align: left;
-}
-
-/* 9. Dropdown Sub-menu Link Padding */
-.collapse ul li .nav-link {
-    padding-left: 10px;
-    font-size: 0.88rem;
-}
-
-.transition-hover {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    cursor: pointer;
-}
+/* Card Hover Animation */
 .transition-hover:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
 }

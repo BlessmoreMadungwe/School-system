@@ -2,28 +2,32 @@
 
 {% block content %}
 <div class="container-fluid">
-    <h2 class="mb-4 text-dark">Upload Study Material</h2>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-lg-6">
-            <div class="card border-0 shadow-sm p-4">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-cloud-arrow-up-fill fs-2 text-success me-3"></i>
+                <h2 class="mb-0 text-dark fw-bold">Upload Study Material</h2>
+            </div>
+            
+            <div class="card border-0 shadow-sm p-4 rounded-4">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    
+                    {% for field in form %}
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Select Class</label>
-                        <select class="form-select">
-                            <option>Mathematics 101</option>
-                            <option>Physics II</option>
-                        </select>
+                        <label class="form-label fw-bold small text-secondary">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors|first }}</div>
+                        {% endif %}
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Material Title</label>
-                        <input type="text" class="form-control" placeholder="e.g. Chapter 1 Notes">
+                    {% endfor %}
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm">
+                            <i class="bi bi-upload me-2"></i> Upload to Student Portal
+                        </button>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">File</label>
-                        <input type="file" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Upload to Student Portal</button>
                 </form>
             </div>
         </div>
