@@ -2,54 +2,125 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm border-start border-4 border-danger">
-        <div class="bg-danger bg-opacity-10 p-3 rounded-circle me-3">
-            <i class="bi bi-people-fill text-danger fs-3"></i>
+    <div class="d-flex align-items-center justify-content-between mb-4 p-4 bg-white rounded-4 shadow-sm border-start border-4 border-danger">
+        <div class="d-flex align-items-center">
+            <div class="bg-danger bg-opacity-10 p-3 rounded-circle me-3">
+                <i class="bi bi-people-fill text-danger fs-3"></i>
+            </div>
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a href="{% url 'departments_list' %}" class="text-danger text-decoration-none fw-medium">Departments</a></li>
+                        <li class="breadcrumb-item active fw-bold">{{ department.name }}</li>
+                    </ol>
+                </nav>
+                <h3 class="fw-bold mb-0 text-dark">Departmental Faculty</h3>
+            </div>
         </div>
-        <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-1 small">
-                    <li class="breadcrumb-item"><a href="" class="text-danger text-decoration-none">Departments</a></li>
-                    <li class="breadcrumb-item active">Computer Science</li>
-                </ol>
-            </nav>
-            <h3 class="fw-bold mb-0">Departmental Faculty</h3>
+        <div class="text-end d-none d-md-block">
+            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                <i class="bi bi-person-check-fill text-success me-1"></i> {{ staff_count }} Active Staff
+            </span>
         </div>
     </div>
 
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white py-3 border-bottom">
-            <h5 class="mb-0 fw-bold"><i class="bi bi-person-badge me-2 text-primary"></i>Assigned Staff</h5>
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fw-bold text-dark">
+                <i class="bi bi-person-badge me-2 text-danger"></i>Assigned Staff Members
+            </h5>
+            <div class="btn-group">
+                <button class="btn btn-sm btn-outline-secondary rounded-start-pill px-3"><i class="bi bi-download me-1"></i> Export</button>
+                <a href="{% url 'add_staff' %}" class="btn btn-sm btn-danger rounded-end-pill px-3"><i class="bi bi-person-plus-fill me-1"></i> Add Staff</a>
+            </div>
         </div>
+        
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                    <thead class="bg-light text-uppercase">
                         <tr>
-                            <th class="ps-4">Staff Member</th>
-                            <th>Designation</th>
-                            <th>Specialization</th>
-                            <th>Experience</th>
-                            <th class="text-center">Action</th>
+                            <th class="ps-4 py-3 small fw-bold text-secondary">Staff Member</th>
+                            <th class="py-3 small fw-bold text-secondary">Designation</th>
+                            <th class="py-3 small fw-bold text-secondary">Specialization</th>
+                            <th class="py-3 small fw-bold text-secondary">Role</th>
+                            <th class="py-3 small fw-bold text-secondary text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for staff in staff_members %}
                         <tr>
-                            <td class="ps-4">
+                            <td class="ps-4 py-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-secondary rounded-circle me-2" style="width: 32px; height: 32px;"></div>
-                                    <span class="fw-medium">Dr. Sarah Jenkins</span>
+                                    <div class="avatar-circle me-3 bg-danger text-white d-flex align-items-center justify-content-center fw-bold shadow-sm">
+                                        {{ staff.user.first_name|slice:":1" }}{{ staff.user.last_name|slice:":1" }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark mb-0">{{ staff.user.get_full_name|default:staff.user.username }}</div>
+                                        <div class="text-muted small"><i class="bi bi-envelope me-1"></i>{{ staff.user.email }}</div>
+                                    </div>
                                 </div>
                             </td>
-                            <td>Head of Department</td>
-                            <td>Artificial Intelligence</td>
-                            <td>12 Years</td>
-                            <td class="text-center"><button class="btn btn-sm btn-outline-danger rounded-pill">Profile</button></td>
+                            <td>
+                                <span class="fw-medium text-dark">
+                                    {% if staff.is_hod %}
+                                        <span class="text-danger fw-bold">HOD:</span> 
+                                    {% endif %}
+                                    {{ staff.get_role_display }}
+                                </span>
+                                <div class="text-muted x-small">Staff ID: #{{ staff.id }}</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2 py-1">
+                                    {{ staff.specialization|default:"General" }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill small">
+                                    <i class="bi bi-circle-fill me-1 small"></i> Active
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm rounded-circle shadow-sm" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu border-0 shadow-lg rounded-3">
+                                        <li><a class="dropdown-item" href="{% url 'staff_profile' staff.id %}"><i class="bi bi-eye me-2"></i>View Profile</a></li>
+                                        <li><a class="dropdown-item" href="mailto:{{ staff.user.email }}"><i class="bi bi-chat-dots me-2"></i>Message</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-person-x me-2"></i>Remove from Dept</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <img src="https://cdn-icons-png.flaticon.com/512/4076/4076402.png" width="80" class="mb-3 opacity-50" alt="No staff">
+                                <p class="text-muted">No faculty members found in this department.</p>
+                                <a href="{% url 'add_staff' %}" class="btn btn-sm btn-danger rounded-pill px-4">Add First Staff</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .x-small { font-size: 0.7rem; }
+    .avatar-circle {
+        width: 42px; height: 42px; border-radius: 12px; font-size: 0.9rem;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(220, 53, 69, 0.01);
+        transition: background-color 0.2s;
+    }
+    .badge { font-weight: 600; letter-spacing: 0.3px; }
+    .dropdown-item { font-size: 0.85rem; padding: 0.6rem 1rem; }
+    .dropdown-item:hover { background-color: #f8f9fa; color: #dc3545; }
+</style>
 {% endblock %}

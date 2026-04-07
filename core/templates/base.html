@@ -71,15 +71,22 @@
             <a class="nav-link" href="{% url 'add_subject' %}">
                 <i class="bi bi-plus-square text-danger"></i> Create Subject
             </a>
-             <a class="nav-link" href="{% url 'add_department' %}">
+            <a class="nav-link" href="{% url 'add_department' %}">
                 <i class="bi bi-plus-square text-danger"></i> Create Department
             </a>
-            
+
             <a class="nav-link" href="{% url 'departments_list' %}">
                 <i class="bi bi-building text-danger"></i> Departments
             </a>
+          
+            </a>
+
+            <a class="nav-link"  href="{% url 'add_staff' %}" >
+                <i class="bi bi-person-plus-fill  text-danger"></i> Add Staff
+            </a>
+
             <a class="nav-link" href="{% url 'subjects_list' %}">
-                <i class="bi bi-journal-bookmark text-danger"></i> Course Catalog
+                <i class="bi bi-journal-bookmark text-danger "></i> Course Catalog
             </a>
             {% endif %}
 

@@ -18,9 +18,10 @@ class RegisterForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email']
 
     # --- ADD THIS SECTION BELOW ---
-    def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            # This adds the Bootstrap class to EVERY input automatically
-            field.widget.attrs['class'] = 'form-control'
-    # ------------------------------
+def clean(self):
+    cleaned_data = super().clean()
+    pw = cleaned_data.get("password")
+    cpw = cleaned_data.get("confirm_password")
+    if pw and cpw and pw != cpw:
+        self.add_error("confirm_password", "Passwords do not match.")
+    return cleaned_data

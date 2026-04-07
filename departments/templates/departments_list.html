@@ -2,7 +2,8 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="d-flex align-items-center justify-content-between mb-4 p-4 bg-white rounded shadow-sm border-start border-4 border-danger">
+    <div
+        class="d-flex align-items-center justify-content-between mb-4 p-4 bg-white rounded shadow-sm border-start border-4 border-danger">
         <div class="d-flex align-items-center">
             <div class="bg-danger bg-opacity-10 p-3 rounded-circle me-3">
                 <i class="bi bi-building-fill text-danger fs-3"></i>
@@ -45,7 +46,8 @@
                                 <div class="text-muted x-small">Main Campus</div>
                             </td>
                             <td>
-                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3">
+                                <span
+                                    class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3">
                                     {{ dept.code }}
                                 </span>
                             </td>
@@ -61,15 +63,26 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <a href="{% url 'dept_staff' %}" class="btn btn-sm btn-outline-secondary" title="View Staff">
+                                    <a href="{% url 'dept_staff' dept.id %}" class="btn btn-sm btn-outline-secondary"
+                                         title="View staff">
                                         <i class="bi bi-people"></i>
-                                    </a>
-                                    <a href="{% url 'dept_courses' %}" class="btn btn-sm btn-outline-secondary" title="View Courses">
-                                        <i class="bi bi-book"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
+                                        </a>
+        
+
+                                        <a href="{% url 'dept_courses' %}" class="btn btn-sm btn-outline-secondary"
+                                            title="View Courses">
+                                            <i class="bi bi-book"></i>
+                                        </a>
+
+                                        <a href="{% url 'edit_department' dept.pk %}"
+                                            class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                        <a href="{% url 'delete_department' dept.pk %}"
+                                            class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
                                 </div>
                             </td>
                         </tr>
@@ -89,9 +102,22 @@
 </div>
 
 <style>
-    .x-small { font-size: 0.75rem; }
-    .btn-group .btn { border-radius: 8px !important; margin: 0 2px; transition: all 0.2s; }
-    .btn-group .btn:hover { transform: translateY(-2px); }
-    .table-hover tbody tr:hover { background-color: rgba(220, 53, 69, 0.02); }
+    .x-small {
+        font-size: 0.75rem;
+    }
+
+    .btn-group .btn {
+        border-radius: 8px !important;
+        margin: 0 2px;
+        transition: all 0.2s;
+    }
+
+    .btn-group .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(220, 53, 69, 0.02);
+    }
 </style>
 {% endblock %}

@@ -13,5 +13,6 @@ urlpatterns = [
     path('', include('subjects.urls')),
     path('', include('assignment.urls')),
     path('', include('enrollment.urls')),
-  
+    path('', include('staff.urls')),
+ 
 ]

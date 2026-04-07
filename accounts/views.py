@@ -40,6 +40,7 @@ def register_view(request):
     
     return render(request, 'register.html', {'form': form})
 def login_view(request):
+    error = None
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
