@@ -30,7 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = get_env('SECRET_KEY', required=True)
 DEBUG = get_env('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = get_env('ALLOWED_HOSTS', 'school-system-ywgr.onrender.com').split(',')
+ALLOWED_HOSTS = get_env('ALLOWED_HOSTS', '127.0.0.1,localhost,school-system-ywgr.onrender.com').split(',')
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # HTTPS — only enforced on production
 SECURE_SSL_REDIRECT = not DEBUG
