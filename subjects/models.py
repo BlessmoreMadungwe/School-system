@@ -1,5 +1,6 @@
 from django.db import models
 from departments.models import Department
+from staff.models import Staff
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
@@ -13,9 +14,12 @@ class Subject(models.Model):
     
     credits = models.PositiveIntegerField(default=3)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
+    teacher = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f"{self.code}: {self.name}"
 
     class Meta:
         ordering = ['code'] # Keeps your list alphabetical by code
+
+

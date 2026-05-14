@@ -28,34 +28,49 @@
                         </span>
                         <span class="text-muted small fw-bold">ID: {{ subject.code }}</span>
                     </div>
+
+                    <h5 class="card-title fw-bold text-capitalize mb-2">{{ subject.name }}</h5>
                     
-                    <h5 class="card-title fw-bold text-capitalize">{{ subject.name }}</h5>
-                    
-                    <p class="card-text text-secondary small">
-                        {{ subject.description|default:"No description provided."|truncatechars:100 }}
+                    <p class="card-text text-secondary small mb-4">
+                        {{ subject.description|default:"No description provided."|truncatechars:80 }}
                     </p>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="small">
+                            <i class="bi bi-person-circle me-1 text-primary"></i>
+                            {% if subject.teacher %}
+                                {{ subject.teacher.user.get_full_name|default:subject.teacher.user.username }}
+                            {% else %}
+                                <span class="text-muted italic">Unassigned</span>
+                            {% endif %}
+                        </div>
+                        <div class="small fw-bold text-dark">
+                            <i class="bi bi-award me-1 text-warning"></i> {{ subject.credits }} Units
+                        </div>
+                    </div>
                     
                     <hr class="text-light">
                     
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="small">
-                            <i class="bi bi-person-circle me-1 text-primary"></i> 
-                            Faculty Member
-                        </div>
-                        <div class="small fw-bold text-dark">
+                    <div class="d-flex justify-content-end">
+                         <div class="small fw-bold text-muted">
                             <i class="bi bi-calendar3 me-1"></i> {{ subject.created_at|date:"Y" }}
                         </div>
                     </div>
                 </div>
+
                 <div class="card-footer bg-light border-0 py-3 rounded-bottom-4">
                     <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">View Details</a>
+                        <a href="{% url 'assign_teacher' subject.id %}" class="btn btn-warning btn-sm rounded-pill fw-bold">
+                            <i class="bi bi-person-plus-fill me-1"></i> Assign Teacher
+                        </a>
+                        <a href="{% url 'subject_detail' subject.id %}" class="btn btn-outline-dark btn-sm rounded-pill">View Details</a>
                     </div>
                 </div>
-            </div>
+            </div>          
         </div>
         {% empty %}
         <div class="col-12 text-center py-5">
+            <i class="bi bi-search fs-1 text-muted d-block mb-3"></i>
             <p class="text-muted">No subjects found. Start by adding a new one!</p>
         </div>
         {% endfor %}

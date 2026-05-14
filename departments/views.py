@@ -26,8 +26,8 @@ def departments_list(request):
     return render(request, 'departments_list.html', {'departments': departments})
 
 
-def dept_courses(request):
-    return render(request, 'dept_courses.html')
+# def dept_courses(request):
+#     return render(request, 'dept_courses.html')
 
 def dept_staff(request, dept_id):
    # Fetch the department or return 404 if not found

@@ -3,11 +3,24 @@
 {% block content %}
 <div class="container-fluid">
     <div class="mb-4">
-        <a href="{% url 'subjects_list' %}" class="btn btn-link text-decoration-none text-muted p-0 mb-2">
-            <i class="bi bi-arrow-left"></i> Back to Catalog
-        </a>
-        <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
-            <h3 class="fw-bold mb-0">Artificial Intelligence <span class="text-muted small ms-2">(CS205)</span></h3>
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="{% url 'subjects_list' %}" class="btn btn-link text-decoration-none text-muted p-0 mb-2">
+                <i class="bi bi-arrow-left"></i> Back to Catalog
+            </a>
+        </div>
+        <div class="d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+            <div class="d-flex align-items-center">
+                <div class="bg-warning bg-opacity-10 p-2 rounded-circle me-3">
+                    <i class="bi bi-book text-warning fs-4"></i>
+                </div>
+                <div>
+                    <h3 class="fw-bold mb-0">{{ subject.name }}</h3>
+                    <p class="text-muted mb-0 small">Course Code: <strong>{{ subject.code }}</strong></p>
+                </div>
+            </div>
+            <span class="badge {% if subject.is_active %}bg-success{% else %}bg-secondary{% endif %} rounded-pill px-3 py-2">
+                {{ subject.is_active|yesno:"Active,Inactive" }}
+            </span>
         </div>
     </div>
 
@@ -15,44 +28,97 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-header bg-white py-3">
-                    <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-list-task me-2"></i>Course Modules</h5>
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-journal-text me-2 text-warning"></i>Course Description</h5>
                 </div>
                 <div class="card-body">
-                    <div class="accordion accordion-flush" id="syllabusAccordion">
+                    <p class="text-secondary mb-4">
+                        {{ subject.description|default:"No detailed description available for this course yet." }}
+                    </p>
+
+                    <h6 class="fw-bold mb-3">Syllabus Overview</h6>
+                    <div class="accordion accordion-flush border rounded-3" id="syllabusAccordion">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#mod1">
-                                    Module 1: Introduction to AI
+                                    Module 1: Introduction & Fundamentals
                                 </button>
                             </h2>
                             <div id="mod1" class="accordion-collapse collapse show">
                                 <div class="accordion-body text-secondary small">
-                                    History of AI, Turing tests, and Agent architectures.
+                                    Core principles of {{ subject.name }}, foundational terminology, and course objectives.
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
-                <div class="bg-warning bg-opacity-10 p-4 rounded-circle d-inline-block mx-auto mb-3">
-                    <i class="bi bi-info-circle text-warning fs-1"></i>
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <h6 class="fw-bold mb-3 text-muted small text-uppercase">Lead Instructor</h6>
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-person-badge text-primary fs-4"></i>
+                    </div>
+                    <div>
+                        {% if subject.teacher %}
+                            <p class="mb-0 fw-bold">{{ subject.teacher.user.get_full_name|default:subject.teacher.user.username }}</p>
+                            <small class="text-muted">Faculty Member</small>
+                        {% else %}
+                            <p class="mb-0 text-muted italic small">Instructor Not Assigned</p>
+                        {% endif %}
+                    </div>
                 </div>
-                <h5 class="fw-bold">Subject Info</h5>
-                <ul class="list-group list-group-flush text-start mt-3">
-                    <li class="list-group-item d-flex justify-content-between small">
-                        <span class="text-muted">Total Weeks:</span> <strong>16 Weeks</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between small">
-                        <span class="text-muted">Exam Type:</span> <strong>Written + Project</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between small">
-                        <span class="text-muted">Difficulty:</span> <strong class="text-danger">Advanced</strong>
-                    </li>
-                </ul>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <h6 class="fw-bold mb-3 text-muted small text-uppercase">Subject Info</h6>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">Credit Units:</span>
+                    <span class="fw-bold small">{{ subject.credits }} Units</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">Department:</span>
+                    <span class="fw-bold small">{{ subject.department.name }}</span>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-shield-lock me-2 text-warning fs-5"></i>
+                    <h6 class="fw-bold mb-0">Admin Actions</h6>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="#" class="btn btn-light btn-sm rounded-pill fw-bold py-2">
+                        <i class="bi bi-pencil-square me-1"></i> Edit Subject
+                    </a>
+                    <a href="{% url 'assign_teacher' subject.id %}" class="btn btn-outline-light btn-sm rounded-pill py-2">
+                        <i class="bi bi-person-plus me-1"></i> Assign Teacher
+                    </a>
+                    <hr class="border-secondary my-1">
+                    <button class="btn btn-outline-danger btn-sm rounded-pill py-2 border-0" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash3 me-1"></i> Delete Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-body p-4 text-center">
+                <div class="bg-danger bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                    <i class="bi bi-exclamation-triangle text-danger fs-2"></i>
+                </div>
+                <h5 class="fw-bold">Delete Subject?</h5>
+                <p class="text-muted small">Are you sure you want to remove <strong>{{ subject.name }}</strong>? This will remove all associated curriculum data.</p>
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-light rounded-pill flex-grow-1" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger rounded-pill flex-grow-1">Confirm Delete</button>
+                </div>
             </div>
         </div>
     </div>
