@@ -123,12 +123,16 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # ---------------------------------------------------------------------------
 # DATABASE
 # ---------------------------------------------------------------------------
+def _database_ssl_require(url):
+    return url and url.startswith(('postgres://', 'postgresql://'))
+
+DATABASE_URL = os.environ.get('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=DATABASE_URL,
         env='DATABASE_URL',
         conn_max_age=600,
-        ssl_require=True,
+        ssl_require=_database_ssl_require(DATABASE_URL),
     )
 }
 
