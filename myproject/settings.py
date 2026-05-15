@@ -53,6 +53,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = True
 
+# CSRF trusted origins for HTTPS deployments
+CSRF_TRUSTED_ORIGINS = [
+    'https://school-system-ywgr.onrender.com',
+    'https://*.onrender.com',
+]
+
 # Misc headers
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
